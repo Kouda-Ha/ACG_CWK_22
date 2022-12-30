@@ -84,21 +84,20 @@ Node* Scene( Physics* phys )
 	TexturedLit* mars = new TexturedLit(sphere, "textures/2k_mars.jpg"); // Mars
 	TexturedLit* jupiter = new TexturedLit(sphere, "textures/2k_jupiter.jpg"); // Jupiter
 	TexturedLit* saturn = new TexturedLit(sphere, "textures/2k_saturn.jpg"); // Saturn
-	TexturedLit* saturnring = new TexturedLit(sphere, "textures/2k_saturn_ring_aplha.jpg"); // Saturn ring
+	TexturedLit* saturnring = new TexturedLit(sphere, "textures/2k_saturn_ring_alpha.png"); // Saturn ring
 	TexturedLit* uranus = new TexturedLit(sphere, "textures/2k_uranus.jpg"); // Uranus
 	TexturedLit* neptune = new TexturedLit(sphere, "textures/2k_neptune.jpg"); // Neptune
 	TexturedLit* pluto = new TexturedLit(sphere, "textures/stone.png"); // Pluto
 
+
 	
-//	SphereGeometry sphere2(20);
-	//TexturedLit* sphereRender2 = new TexturedLit(sphere2, "textures/stone.png", "default", cubeMap, 0.3f);
+	
 	TransformNode* sphereTrans = new TransformNode(glm::translate(glm::mat4(), glm::vec3(0.0f, 10.0f, 0.0f)));
 	TransformNode* sphereScale = new TransformNode(glm::scale(glm::mat4(), glm::vec3(3.0f, 3.0f, 3.0f)));
 
 	light->AddChild(sphereTrans);
 	sphereTrans->AddChild(sphereScale);
-//	sphereScale->AddChild(new GeometryNode(sphereRender2));
-	
+		
 	// cubemap end
 
 	phys->AddCollider(new QuadCollider(floorMat));

@@ -9,7 +9,7 @@ class MainScene : public SOF::App
 	// geometry
 	TexturedLit* floorQuad;
 	TexturedLit* cuboid; // from SolarSystem, cubes, and lights 
-
+	MeshObject* meshObject;
 	// camera
 	glm::vec3 eye;    
 	glm::vec3 lookAt; 

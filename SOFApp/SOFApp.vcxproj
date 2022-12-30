@@ -96,8 +96,10 @@
     <ClInclude Include="spline.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="mainScene.h" />
+    <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="MeshObject.cpp" />
     <ClCompile Include="physics.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SOFApp.cpp" />

@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "RenderLib.h"
 #include "mainScene.h"
-
+#include "Transforms.h"
+#include "CubeGeom.h"
+#include <random>
 
 Node* Scene( Physics *phys);
 extern Node* Scene2(); // skybox
@@ -29,7 +31,7 @@ void MainScene::Init()
 {
 
 	// setup the camera
-	eye = glm::vec3(0.0f, 3.0f, -40.0f);
+	eye = glm::vec3(0.0f, 15.0f, -40.0f);
 	lookAt = glm::vec3(0.0f, 3.0f, 0.0f);
 	up = glm::vec3(0.0f, 1.0f, 0.0); // y is up!
 
@@ -47,8 +49,12 @@ void MainScene::Init()
 	// initialises projectile sphere
 	projectileNode = new TransformNode(glm::scale(glm::mat4(), glm::vec3(0.2f, 0.2f, 0.2f)));
 	SphereGeometry geom(20);
+	CubeGeometry cubeGeom;
 	TexturedLit* mesh = new TexturedLit(geom, "textures/grid.jpg");
 	projectileNode->AddChild(new GeometryNode(mesh));
+
+	// Discworld Turtle/"Earth" found: https://www.thingiverse.com/thing:3145157
+	meshObject = new MeshObject("meshes/turtleEarth/flatTurtle.obj");
 
 	// render states
 	glEnable(GL_DEPTH_TEST);
@@ -68,6 +74,21 @@ void MainScene::Draw()
 	up = camera->GetUp();
 	view = glm::lookAt(eye, lookAt, up);
 	proj = glm::perspective(glm::radians(60.0f), (float)SOF::Window::GetWidth() / (float)SOF::Window::GetHeight(), 0.1f, 1000.0f);
+	
+	// model
+	glm::mat4 model = glm::mat4();
+	Transforms trans(model, view, proj);
+
+
+	glm::mat4 lightPositionMat;
+	glm::mat4 lightColorMat;
+
+	PointLight light(lightPositionMat, lightColorMat, 0.1f, 0.8f, 0.5f, 20, glm::vec4());
+
+	model = glm::mat4();
+	trans.SetModel(model);
+	meshObject->Draw(trans, light);
+
 	// Render the scene graph
 	RenderVisitor rv(view, proj);
 	rv.Traverse(sceneGraphRoot);

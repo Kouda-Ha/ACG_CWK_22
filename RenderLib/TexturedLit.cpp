@@ -25,10 +25,14 @@ void TexturedLit::Draw(const Transforms &trans, const PointLight& light )
 {
 	// calculate the mvp matrix;
 	glm::mat4 vp = trans.GetProj() * trans.GetView();
+	glm::vec3 camPos = -glm::vec3(trans.GetView()[3]) * glm::mat3(trans.GetView());
+
 	// enable the shader, set uniforms
 	shader->Use();
 	shader->SetUniformMat4("viewProj", vp);
 	shader->SetUniformMat4("model", trans.GetModel());
+
+	// set the lighting uniforms
 	shader->SetUniformVec3("lightK", glm::vec3(light.GetAmbientLevel(), light.GetDiffuseLevel(), light.GetSpecularLevel()));
 	shader->SetUniformFloat("alpha", light.GetSpecularPower());
 	shader->SetUniformMat4("lightPos", light.GetPosition());
@@ -37,7 +41,7 @@ void TexturedLit::Draw(const Transforms &trans, const PointLight& light )
 	glm::vec4 attenuation = glm::vec4(1,1,1,1) / (light.GetAttenuationRadius() * light.GetAttenuationRadius());
 	shader->SetUniformVec4("attenuation", attenuation);
 
-	glm::vec3 camPos = -glm::vec3(trans.GetView()[3]) * glm::mat3(trans.GetView());
+
 	shader->SetUniformVec3("cameraPos", camPos);
 	// hook up the textures 
 	shader->AssignTextureSampler("textureSampler", texture);
